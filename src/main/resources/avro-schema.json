@@ -1,0 +1,60 @@
+{
+  "namespace": "com.datapyro",
+  "type": "record",
+  "name": "NetworkData",
+  "doc": "Represents a NetworkSignal",
+  "fields": [
+    {
+      "name": "deviceId",
+      "type": "string"
+    },
+    {
+      "name": "time",
+      "type": "long"
+    },
+    {
+      "name": "signals",
+      "type": {
+        "type": "array",
+        "items": {
+          "name": "signal",
+          "type": "record",
+          "fields": [
+            {
+              "name": "time",
+              "type": "long"
+            },
+            {
+              "name": "networkType",
+              "type": "string"
+            },
+            {
+              "name": "rxSpeed",
+              "type": "double"
+            },
+            {
+              "name": "txSpeed",
+              "type": "double"
+            },
+            {
+              "name": "rxData",
+              "type": "long"
+            },
+            {
+              "name": "txData",
+              "type": "long"
+            },
+            {
+              "name": "latitude",
+              "type": "double"
+            },
+            {
+              "name": "longitude",
+              "type": "double"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
