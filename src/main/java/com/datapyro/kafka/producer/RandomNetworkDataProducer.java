@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
  */
 public class RandomNetworkDataProducer implements Runnable {
 
-    private static final long INCOMING_DATA_INTERVAL = 500;
+    private static final long INCOMING_DATA_INTERVAL = 10;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RandomNetworkDataProducer.class);
 
@@ -45,9 +45,8 @@ public class RandomNetworkDataProducer implements Runnable {
         List<String> deviceIds = IntStream.range(0, deviceCount)
                                           .mapToObj(i-> UUID.randomUUID().toString())
                                           .collect(Collectors.toList());
-
-        final int count = Integer.MAX_VALUE;
-        for (int i = 0; i < count; i++) {
+        
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
             NetworkData networkData = new NetworkData();
 
             networkData.setDeviceId(deviceIds.get(random.nextInt(deviceCount-1)));
@@ -60,6 +59,8 @@ public class RandomNetworkDataProducer implements Runnable {
                 networkSignal.setRxSpeed((double) random.nextInt(100));
                 networkSignal.setTxSpeed((double) random.nextInt(100));
                 networkSignal.setTime(System.currentTimeMillis());
+                networkSignal.setLatitude((Math.random() * 10) + 1);
+                networkSignal.setLongitude((Math.random() * 10) + 1);
                 networkData.getSignals().add(networkSignal);
             }
 
@@ -72,7 +73,9 @@ public class RandomNetworkDataProducer implements Runnable {
             producer.send(record);
 
             try {
-                Thread.sleep(INCOMING_DATA_INTERVAL);
+                if (INCOMING_DATA_INTERVAL > 0) {
+                    Thread.sleep(INCOMING_DATA_INTERVAL);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
